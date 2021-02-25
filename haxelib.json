@@ -1,0 +1,15 @@
+{
+  "name": "blok.core.foundation",
+  "classPath": "src",
+  "contributors": ["wartman"],
+  "license": "MIT",
+  "tags": [
+    "ui",
+    "blok.core"
+  ],
+  "releasenote": "Pre-release",
+  "version": "0.0.1",
+  "dependencies": {
+    "blok.core": "0.0.4"
+  }
+}
