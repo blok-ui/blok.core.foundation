@@ -9,7 +9,7 @@ using Blok;
 class RouterState<Route:EnumValue> implements State {
   @prop public var urlToRoute:(url:String)->Route;
   @prop public var routeToUrl:(route:Route)->String;
-  @prop var history:History;
+  @prop final history:History;
   @prop var route:Route = null;
   @prop var url:String = null;
 

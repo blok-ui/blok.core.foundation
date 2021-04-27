@@ -8,7 +8,7 @@ class Router<Route:EnumValue> extends Component {
   @prop var match:(route:Route)->VNode;
   @prop var history:History;
 
-  override function render(context:Context) {
+  public function render() {
     return RouterState.provide({
       urlToRoute: urlToRoute,
       routeToUrl: routeToUrl,

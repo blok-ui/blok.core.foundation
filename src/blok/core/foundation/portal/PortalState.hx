@@ -18,7 +18,11 @@ class PortalState implements State {
     return __fallback;
   }
 
-  public static function target(context:Context) {
+  public inline static function target() {
+    return use(state -> VFragment(state.portals.map(p -> p.vnode)));
+  }
+
+  public static function targetFrom(context:Context) {
     return observe(context, state -> VFragment(state.portals.map(p -> p.vnode)));
   }
   

@@ -2,7 +2,6 @@ package blok.core.foundation.portal;
 
 import blok.Component;
 import blok.VNode;
-import blok.Context;
 
 class Portal extends Component {
   static var id:Int = 0;
@@ -22,7 +21,7 @@ class Portal extends Component {
     state.removePortal(key);
   }
 
-  override function render(context:Context):VNode {
-    return null;
+  public function render():VNode {
+    return None;
   }
 }
