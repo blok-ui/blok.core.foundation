@@ -1,7 +1,5 @@
 package blok.core.foundation.suspend;
 
-import haxe.Timer;
-
 enum SuspendTrackerStatus {
   Ready;
   Waiting(num:Int);
@@ -10,8 +8,13 @@ enum SuspendTrackerStatus {
 // Note: Fallback is intentionally null -- the use of the Tracker is optional.
 @service(fallback = null)
 class SuspendTracker implements Service {
+  var isDispatching:Bool = false;
   final tracked:Array<Suspend> = [];
-  public final status:Observable<SuspendTrackerStatus> = new Observable(Waiting(0));
+  final scheduler:Scheduler = DefaultScheduler.getInstance();
+  public final status:Observable<SuspendTrackerStatus> = new Observable(
+    Waiting(0), // Done to ensure we don't trigger `whenComplete` prematurely.
+    (a, b) -> !a.equals(b)
+  );
 
   public function new() {}
 
@@ -26,18 +29,19 @@ class SuspendTracker implements Service {
     if (!tracked.contains(item)) {
       tracked.push(item);
       status.update(Waiting(tracked.length));
-      Timer.delay(() -> {
-        if (tracked.contains(item)) {
-          throw 'Suspense tracking stalled out after 20000ms with ${tracked.length} remaining';
-        }
-      }, 20000);
     }
   }
 
   public function markComplete(item:Suspend) {
     if (tracked.contains(item)) {
       tracked.remove(item);
-      Timer.delay(maybeDispatch, 100);
+      if (!isDispatching) {
+        isDispatching = true;
+        scheduler.schedule(() -> {
+          maybeDispatch();
+          isDispatching = false;
+        });
+      }
     }
   }
 
