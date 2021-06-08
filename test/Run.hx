@@ -13,7 +13,7 @@ function main() {
   tracker.whenComplete(() -> trace('done'));
   Platform.mount(
     Browser.document.getElementById('root'),
-    Provider.provide(tracker, context -> Html.fragment([
+    Provider.provide(tracker, context -> Html.fragment(
       Wrapper.node({ delay: 1000 }),
       Wrapper.node({ delay: 2000 }),
       Wrapper.node({ delay: 3000 }),
@@ -22,7 +22,7 @@ function main() {
         case Waiting(num): Html.text('Waiting on ${num}');
         case Ready: Html.text('Done');
       })
-    ]))
+    ))
   );
 }
 
@@ -63,9 +63,7 @@ class WillSuspend extends Component {
   @use var service:AsyncService;
 
   public function render() {
-    return Html.div({
-      children: [ Html.text(service.get()) ]
-    });
+    return Html.div({}, Html.text(service.get()));
   }
 }
 
@@ -91,8 +89,8 @@ class Placeholder extends Component {
   }
 
   public function render() {
-    return Html.div({
-      children: [ Html.text('Waiting' + [ for (_ in 0...dots) '.' ].join('')) ]
-    });
+    return Html.div({},
+      Html.text('Waiting' + [ for (_ in 0...dots) '.' ].join(''))
+    );
   }
 }

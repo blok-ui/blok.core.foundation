@@ -9,7 +9,7 @@ class PortalManager extends Component {
   public function render():VNode {
     return PortalState.provide({}, context -> VFragment([
       PortalState.targetFrom(context),
-      VFragment(children)
+      new VFragment(children)
     ]));
   }
 }
