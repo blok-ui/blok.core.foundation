@@ -15,8 +15,8 @@ class Suspend extends Component {
     });
   }
 
-  @prop var build:()->VNode;
-  @prop var fallback:()->VNode;
+  @prop var build:()->VNodeResult;
+  @prop var fallback:()->VNodeResult;
   @use var tracker:SuspendTracker;
 
   override function componentDidCatch(exception:Exception) {

@@ -21,7 +21,7 @@ class Portal extends Component {
     state.removePortal(key);
   }
 
-  public function render():VNode {
+  public function render() {
     return null;
   }
 }
