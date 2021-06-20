@@ -22,6 +22,6 @@ class Portal extends Component {
   }
 
   public function render() {
-    return null;
+    return [];
   }
 }

@@ -19,11 +19,11 @@ class PortalState implements State {
   }
 
   public inline static function target() {
-    return use(state -> new VFragment(state.portals.map(p -> p.vnode)));
+    return use(state -> Fragment.wrap(...state.portals.map(p -> p.vnode)));
   }
 
   public static function targetFrom(context:Context) {
-    return observe(context, state -> new VFragment(state.portals.map(p -> p.vnode)));
+    return observe(context, state -> Fragment.wrap(...state.portals.map(p -> p.vnode)));
   }
   
   @prop var portals:ReadOnlyArray<PortalEntry> = [];
