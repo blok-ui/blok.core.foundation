@@ -6,9 +6,10 @@ using StringTools;
 
 class StaticHistory implements History {
   final location:Observable<String>;
-  var urls:Array<String> = [];
+  var urls:Array<String>;
 
-  public function new() {
+  public function new(initialUrl:String) {
+    urls = [ initialUrl ];
     location = new Observable(getLocation());
   }
 

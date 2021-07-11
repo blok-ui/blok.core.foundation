@@ -29,9 +29,9 @@ class Suspend extends Component {
         case request:
           if (tracker != null) tracker.track(this);
           request.next(() -> {
-            if (tracker != null) tracker.markComplete(this);
             // Ensure we don't throw an error if this component is removed.
-            if (__isMounted) updateComponent();
+            if (!__isDisposed) invalidateComponent();
+            if (tracker != null) __enqueueEffect(() -> tracker.markComplete(this));
           });
           fallback();
       }
