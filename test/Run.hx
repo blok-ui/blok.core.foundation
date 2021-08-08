@@ -16,8 +16,8 @@ function main() {
     Provider.provide(tracker, context -> Html.fragment(
       Wrapper.node({ delay: 1000 }),
       Wrapper.node({ delay: 2000 }),
+      Wrapper.node({ delay: 4000 }),
       Wrapper.node({ delay: 3000 }),
-      Wrapper.node({ delay: 2000 }),
       tracker.status.mapToVNode(status -> switch status {
         case Waiting(num): Html.text('Waiting on ${num}');
         case Ready: Html.text('Done');

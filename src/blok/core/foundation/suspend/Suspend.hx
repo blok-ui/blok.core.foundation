@@ -19,6 +19,16 @@ class Suspend extends Component {
   @prop var fallback:()->VNodeResult;
   @use var tracker:SuspendTracker;
 
+  var isTracking:Bool = false;
+
+  @effect
+  function maybeMarkComplete() {
+    if (isTracking) {
+      isTracking = false;
+      if (tracker != null) tracker.markComplete(this);
+    }
+  }
+
   override function componentDidCatch(exception:Exception) {
     return switch Std.downcast(exception, WrappedException) {
       case null: 
@@ -27,11 +37,15 @@ class Suspend extends Component {
         case null: 
           super.componentDidCatch(exception);
         case request:
+          isTracking = true;
           if (tracker != null) tracker.track(this);
           request.next(() -> {
             // Ensure we don't throw an error if this component is removed.
-            if (!__isDisposed) invalidateComponent();
-            if (tracker != null) __enqueueEffect(() -> tracker.markComplete(this));
+            switch __status {
+              case WidgetValid:
+                invalidateWidget();
+              default: // noop
+            }
           });
           fallback();
       }

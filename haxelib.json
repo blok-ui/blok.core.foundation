@@ -8,8 +8,8 @@
     "blok.core"
   ],
   "releasenote": "Pre-release",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "dependencies": {
-    "blok.core": "0.2.0"
+    "blok.core": "0.3.0"
   }
 }
