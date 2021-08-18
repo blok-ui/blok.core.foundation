@@ -4,8 +4,7 @@ import blok.Observable;
 
 using Blok;
 
-// @todo: figure out how to handle the fallback here.
-@service(fallback = null)
+@service(fallback = throw 'No router found.')
 class RouterState<Route:EnumValue> implements State {
   @prop public var urlToRoute:(url:String)->Route;
   @prop public var routeToUrl:(route:Route)->String;
@@ -13,16 +12,9 @@ class RouterState<Route:EnumValue> implements State {
   @prop var route:Route = null;
   @prop var url:String = null;
 
-  var link:Disposable;
-
   @init
   function setup() {
-    link = history.getObservable().observe(setUrl);
-  }
-
-  @dispose
-  function cleanup() {
-    link.dispose();
+    addDisposable(history.getObservable().observe(setUrl));
   }
 
   public function previous() {

@@ -7,16 +7,20 @@ enum SuspendTrackerStatus {
 
 // Note: Fallback is intentionally null -- the use of the Tracker is optional.
 @service(fallback = null)
-class SuspendTracker implements Service {
+class SuspendTracker implements Service implements Disposable {
   var isDispatching:Bool = false;
   final tracked:Array<Suspend> = [];
-  final scheduler:Scheduler = DefaultScheduler.getInstance();
+  final scheduler:Scheduler;
   public final status:Observable<SuspendTrackerStatus> = new Observable(
     Waiting(0), // Done to ensure we don't trigger `whenComplete` prematurely.
     (a, b) -> !a.equals(b)
   );
 
-  public function new() {}
+  public function new(?scheduler) {
+    this.scheduler = scheduler == null
+      ? DefaultScheduler.getInstance()
+      : scheduler;
+  }
 
   public inline function whenComplete(cb:()->Void) {
     return status.observe(status -> switch status {
@@ -51,5 +55,9 @@ class SuspendTracker implements Service {
     } else {
       status.update(Waiting(tracked.length));
     }
+  }
+
+  public function dispose() {
+    status.dispose();
   }
 }

@@ -37,15 +37,20 @@ class Suspend extends Component {
         case null: 
           super.componentDidCatch(exception);
         case request:
-          isTracking = true;
           if (tracker != null) tracker.track(this);
-          request.next(() -> {
-            // Ensure we don't throw an error if this component is removed.
-            switch __status {
-              case WidgetValid:
-                invalidateWidget();
-              default: // noop
-            }
+          // Note: we need to ensure this runs on the next tick,
+          //       othewise we'll be checking the *current* __status
+          //       of the component.
+          getPlatform().scheduler.schedule(() -> {
+            request.next(() -> {
+              switch __status {
+                case WidgetValid:
+                  isTracking = true;
+                  invalidateWidget();
+                default:
+                  tracker.markComplete(this);
+              }
+            });
           });
           fallback();
       }
