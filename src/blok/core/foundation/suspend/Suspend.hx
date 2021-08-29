@@ -4,7 +4,7 @@ import haxe.Exception;
 import blok.exception.WrappedException;
 
 class Suspend extends Component {
-  public inline static function suspend(next) {
+  public inline static function suspend(next):VNode {
     throw new RequestSuspensionException(next);
   }
 
@@ -38,9 +38,6 @@ class Suspend extends Component {
           super.componentDidCatch(exception);
         case request:
           if (tracker != null) tracker.track(this);
-          // Note: we need to ensure this runs on the next tick,
-          //       othewise we'll be checking the *current* __status
-          //       of the component.
           getPlatform().scheduler.schedule(() -> {
             request.next(() -> {
               switch __status {
