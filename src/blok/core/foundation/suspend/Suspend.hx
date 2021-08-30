@@ -45,7 +45,7 @@ class Suspend extends Component {
                   isTracking = true;
                   invalidateWidget();
                 default:
-                  tracker.markComplete(this);
+                  if (tracker != null) tracker.markComplete(this);
               }
             });
           });
