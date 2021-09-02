@@ -10,6 +10,6 @@
   "releasenote": "Pre-release",
   "version": "0.1.3",
   "dependencies": {
-    "blok.core": "0.3.0"
+    "blok.core": "0.3.1"
   }
 }

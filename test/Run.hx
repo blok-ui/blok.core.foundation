@@ -1,9 +1,9 @@
-import Blok.Provider;
-import blok.Service;
 import js.Browser;
-import blok.dom.Platform;
 import haxe.Timer;
+import blok.Provider;
+import blok.Service;
 import blok.Html;
+import blok.dom.Platform;
 import blok.Component;
 import blok.core.foundation.suspend.Suspend;
 import blok.core.foundation.suspend.SuspendTracker;
@@ -39,7 +39,7 @@ class Wrapper extends Component {
   }
 }
 
-@service(fallback = null)
+@service(fallback = new AsyncService(1000))
 class AsyncService implements Service {
   public var value:String = null;
   final delay:Int;

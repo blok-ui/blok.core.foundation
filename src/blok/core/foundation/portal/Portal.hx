@@ -3,6 +3,11 @@ package blok.core.foundation.portal;
 import blok.Component;
 import blok.VNode;
 
+/**
+  A `Portal` is a component that renders its child elsewhere in 
+  an app. This makes it super useful for things like modals or 
+  popovers. 
+**/
 class Portal extends Component {
   static var id:Int = 0;
 
