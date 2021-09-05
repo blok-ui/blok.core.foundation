@@ -11,17 +11,8 @@ typedef PortalEntry = { key:String, vnode:VNode };
   The PortalState is responsible for managing all Portals in a Blok app.
   You should generally need only one PortalState.
 **/
-@service(fallback = getFallback())
+@service(fallback = new PortalState({}))
 final class PortalState implements State {
-  static var fallback:PortalState;
-
-  public static function getFallback() {
-    if (fallback == null) {
-      fallback = new PortalState({});
-    }
-    return fallback;
-  }
-
   /**
     Create a Portal target. This is where all views added to the
     portal will be rendered.

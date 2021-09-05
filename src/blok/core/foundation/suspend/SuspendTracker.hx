@@ -5,8 +5,7 @@ enum SuspendTrackerStatus {
   Waiting(num:Int);
 }
 
-// Note: Fallback is intentionally null -- the use of the Tracker is optional.
-@service(fallback = null)
+@service(isOptional)
 class SuspendTracker implements Service implements Disposable {
   var isDispatching:Bool = false;
   final tracked:Array<Suspend> = [];
