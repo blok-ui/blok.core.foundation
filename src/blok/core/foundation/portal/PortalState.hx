@@ -7,7 +7,7 @@ using Lambda;
 
 typedef PortalEntry = { key:String, vnode:VNode }; 
 
-// @todo: this can probably just be a Service now, but for the moment
+// @todo: this can just be a Service now, but for the moment
 //        it works without us needing to change the API at all.
 /**
   The PortalState is responsible for managing all Portals in a Blok app.
@@ -15,7 +15,7 @@ typedef PortalEntry = { key:String, vnode:VNode };
 **/
 @service(fallback = new PortalState({}))
 final class PortalState implements State {
-  @prop var currentTarget:PortalTarget = null;
+  var currentTarget:PortalTarget = null;
 
   /**
     Create a Portal target. This is where all views added to the
@@ -37,11 +37,8 @@ final class PortalState implements State {
     return observe(context, state -> PortalTarget.node({}));
   }
   
-  @update
   public function registerTarget(target:PortalTarget) {
-    return UpdateState({
-      currentTarget: target
-    });
+    currentTarget = target;
   }
 
   public function getTarget() {
