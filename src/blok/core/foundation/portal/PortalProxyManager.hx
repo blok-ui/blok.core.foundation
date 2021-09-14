@@ -12,7 +12,6 @@ class PortalProxyManager implements ConcreteManager {
   final component:Component;
 
   public function new(component:Component, proxy:ConcreteManager) {
-    trace(proxy);
     this.component = component;
     this.proxy = proxy;
   }

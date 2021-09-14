@@ -7,13 +7,19 @@ import blok.dom.Platform;
 import blok.Component;
 import blok.core.foundation.suspend.Suspend;
 import blok.core.foundation.suspend.SuspendTracker;
+import blok.core.foundation.portal.*;
 
 function main() {
   var tracker = new SuspendTracker();
   tracker.whenComplete(() -> trace('done'));
   Platform.mount(
     Browser.document.getElementById('root'),
-    Provider.provide(tracker, context -> Html.fragment(
+    Provider
+    .factory()
+    .provide(tracker)
+    .provide(new PortalState({}))
+    .render(context -> Html.fragment(
+      PortalState.targetFrom(context),
       Wrapper.node({ delay: 1000 }),
       Wrapper.node({ delay: 2000 }),
       Wrapper.node({ delay: 4000 }),
