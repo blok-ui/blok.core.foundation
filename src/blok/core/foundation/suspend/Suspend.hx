@@ -3,6 +3,10 @@ package blok.core.foundation.suspend;
 import haxe.Exception;
 import blok.exception.WrappedException;
 
+// @todo: This thing can potentially fail in a bad way if you
+//        trigger it again while it is already loading.
+//
+//        Think on improving that -- and testing it!
 class Suspend extends Component {
   public inline static function suspend(next):VNode {
     throw new RequestSuspensionException(next);
@@ -19,6 +23,7 @@ class Suspend extends Component {
   @prop var fallback:()->VNodeResult;
   @use var tracker:SuspendTracker;
 
+  var awaiting:Null<DisposableCallback> = null;
   var isTracking:Bool = false;
 
   @effect
@@ -37,13 +42,17 @@ class Suspend extends Component {
         case null: 
           super.componentDidCatch(exception);
         case request:
-          if (tracker != null) tracker.track(this);
+          if (tracker != null && !isTracking) tracker.track(this);
+          if (awaiting != null) awaiting.dispose();
+          awaiting = new DisposableCallback(() -> {
+            invalidateWidget();
+          });
           getPlatform().scheduler.schedule(() -> {
             request.next(() -> {
               switch __status {
                 case WidgetValid:
                   isTracking = true;
-                  invalidateWidget();
+                  awaiting.call();
                 default:
                   if (tracker != null) tracker.markComplete(this);
               }

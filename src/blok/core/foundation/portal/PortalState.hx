@@ -7,18 +7,25 @@ using Lambda;
 
 typedef PortalEntry = { key:String, vnode:VNode }; 
 
+// @todo: this can probably just be a Service now, but for the moment
+//        it works without us needing to change the API at all.
 /**
   The PortalState is responsible for managing all Portals in a Blok app.
   You should generally need only one PortalState.
 **/
 @service(fallback = new PortalState({}))
 final class PortalState implements State {
+  @prop var currentTarget:PortalTarget = null;
+
   /**
     Create a Portal target. This is where all views added to the
     portal will be rendered.
+
+    Note: currently you can only use one target -- this will get set
+    to whatever the *last* target you create.
   **/
   public inline static function target() {
-    return use(state -> Fragment.wrap(...state.portals.map(p -> p.vnode)));
+    return use(state -> PortalTarget.node({}));
   }
 
   /**
@@ -27,24 +34,17 @@ final class PortalState implements State {
     `Context.use(context -> ...)` method).
   **/
   public static function targetFrom(context:Context) {
-    return observe(context, state -> Fragment.wrap(...state.portals.map(p -> p.vnode)));
+    return observe(context, state -> PortalTarget.node({}));
   }
   
-  @prop var portals:ReadOnlyArray<PortalEntry> = [];
-
-  @update 
-  public function addPortal(key:String, vnode:VNode) {
-    if (portals.exists(entry -> entry.key == key)) return None;
+  @update
+  public function registerTarget(target:PortalTarget) {
     return UpdateState({
-      portals: portals.concat([ { key: key, vnode: vnode } ])
+      currentTarget: target
     });
   }
 
-  @update
-  public function removePortal(key:String) {
-    if (!portals.exists(entry -> entry.key == key)) return None;
-    return UpdateState({ 
-      portals: portals.filter(entry -> entry.key != key) 
-    });
+  public function getTarget() {
+    return currentTarget;
   }
 }
