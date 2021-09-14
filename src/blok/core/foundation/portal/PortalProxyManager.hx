@@ -2,20 +2,28 @@ package blok.core.foundation.portal;
 
 using Lambda;
 
-// @note: This won't work for more than one item in a Portal,
-//        unfortunately. We'll need something more complex.
+// Note: This will only work for one Portal at a time, and is currently
+//       more than a little hacky.
+//
+//       There may be a better solution, or we might need to take another
+//       stab at the ConcreteManager.
 class PortalProxyManager implements ConcreteManager {
   final proxy:ConcreteManager;
   final component:Component;
 
   public function new(component:Component, proxy:ConcreteManager) {
+    trace(proxy);
     this.component = component;
     this.proxy = proxy;
   }
 
   public function toConcrete():Array<Dynamic> {
-    var concrete = component.getConcreteChildren();
-    return concrete.map(c -> c.toConcrete()).flatten();
+    // This hides from parent Widgets so they don't try managing
+    // our concrete items for us.
+    //
+    // Note that this is hacky as hell, and probably a sign that this 
+    // part of the API needs a serious rethink.
+    return []; 
   }
   
   public function getFirstConcreteChild():Dynamic {
