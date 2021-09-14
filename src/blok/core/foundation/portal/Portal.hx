@@ -16,19 +16,13 @@ class Portal extends Component {
   @prop var child:VNode;
   @use var state:PortalState;
 
-  #if blok.platform.dom
-    override function __registerPlatform(platform:Platform) {
-      __platform = platform;
-      __manager = new PortalProxyManager(this, state.getTarget().getConcreteManager());
-      addDisposable(__manager);
-    }
-  #end
+  override function __registerPlatform(platform:Platform) {
+    __platform = platform;
+    __manager = new PortalProxyManager(this, state.getTarget().getConcreteManager());
+    addDisposable(__manager);
+  }
 
   public function render() {
-    #if blok.platform.dom
-      return child;
-    #else
-      return [];
-    #end
+    return child;
   }
 }

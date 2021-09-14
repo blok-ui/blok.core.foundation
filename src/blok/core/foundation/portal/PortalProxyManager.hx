@@ -2,6 +2,8 @@ package blok.core.foundation.portal;
 
 using Lambda;
 
+// @note: This won't work for more than one item in a Portal,
+//        unfortunately. We'll need something more complex.
 class PortalProxyManager implements ConcreteManager {
   final proxy:ConcreteManager;
   final component:Component;
