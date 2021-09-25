@@ -14,11 +14,14 @@ class Portal extends Component {
   final key:String = 'portal_${id++}';
   
   @prop var child:VNode;
-  @use var state:PortalState;
+  @use var portals:PortalService;
 
   override function __registerPlatform(platform:Platform) {
     __platform = platform;
-    __manager = new PortalProxyManager(this, state.getTarget().getConcreteManager());
+    __manager = new PortalProxyManager(
+      this, 
+      portals.getTarget().getConcreteManager()
+    );
     addDisposable(__manager);
   }
 

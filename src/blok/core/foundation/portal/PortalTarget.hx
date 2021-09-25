@@ -1,11 +1,11 @@
 package blok.core.foundation.portal;
 
 class PortalTarget extends Component {
-  @use var state:PortalState;
+  @use var portals:PortalService;
 
   @before
   public function register() {
-    state.registerTarget(this);
+    portals.registerTarget(this);
   }
 
   function render() {

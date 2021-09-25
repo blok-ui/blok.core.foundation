@@ -34,10 +34,7 @@ class RouterState<Route:EnumValue> implements State {
   @update
   function setUrl(url:String) {
     var route = urlToRoute(url);
-    if (this.route.equals(route)) return None;
-    return UpdateState({
-      url: url,
-      route: route
-    });
+    if (this.route.equals(route)) return {};
+    return { url: url, route: route };
   }
 }

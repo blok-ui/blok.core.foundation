@@ -5,28 +5,33 @@ import blok.Service;
 import blok.Html;
 import blok.dom.Platform;
 import blok.Component;
-import blok.core.foundation.suspend.Suspend;
-import blok.core.foundation.suspend.SuspendTracker;
+import blok.Suspend;
 import blok.core.foundation.portal.*;
 
 function main() {
-  var tracker = new SuspendTracker();
-  tracker.whenComplete(() -> trace('done'));
+  var suspend = new Suspend();
+  suspend.status.handle(status -> switch status {
+    case Complete: 
+      trace('done');
+      Handled;
+    default: 
+      Pending;
+  });
   Platform.mount(
     Browser.document.getElementById('root'),
     Provider
     .factory()
-    .provide(tracker)
-    .provide(new PortalState({}))
+    .provide(suspend)
+    .provide(new PortalService())
     .render(context -> Html.fragment(
-      PortalState.targetFrom(context),
+      PortalTarget.node({}),
       Wrapper.node({ delay: 1000 }),
       Wrapper.node({ delay: 2000 }),
       Wrapper.node({ delay: 4000 }),
       Wrapper.node({ delay: 3000 }),
-      tracker.status.mapToVNode(status -> switch status {
-        case Waiting(num): Html.text('Waiting on ${num}');
-        case Ready: Html.text('Done');
+      suspend.status.mapToVNode(status -> switch status {
+        case Suspended: Html.text('Waiting');
+        case Complete: Html.text('Done');
       })
     ))
   );
@@ -91,7 +96,7 @@ class Placeholder extends Component {
 
   @update
   public function increment() {
-    return UpdateState({ dots: dots + 1 });
+    return { dots: dots + 1 };
   }
 
   public function render() {
