@@ -16,7 +16,7 @@ class PortalProxyManager implements ConcreteManager {
     this.proxy = proxy;
   }
 
-  public function toConcrete():Array<Dynamic> {
+  public function toConcrete():Concrete {
     // This hides from parent Widgets so they don't try managing
     // our concrete items for us.
     //
@@ -25,14 +25,6 @@ class PortalProxyManager implements ConcreteManager {
     return []; 
   }
   
-  public function getFirstConcreteChild():Dynamic {
-    return proxy.getFirstConcreteChild();
-  }
-
-  public function getLastConcreteChild():Dynamic {
-    return proxy.getLastConcreteChild();
-  }
-
   public function addConcreteChild(child:Widget):Void {
     proxy.addConcreteChild(child);
   }
