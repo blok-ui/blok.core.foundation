@@ -1,7 +1,8 @@
-package blok.core.foundation.portal;
+package blok.foundation.portal;
 
-import blok.Component;
-import blok.VNode;
+import blok.ui.Component;
+import blok.ui.Platform;
+import blok.ui.VNode;
 
 /**
   A `Portal` is a component that renders its child elsewhere in 

@@ -1,4 +1,7 @@
-package blok.core.foundation.a11y;
+package blok.foundation.a11y;
+
+import blok.context.Service;
+import blok.ui.ConcreteWidget;
 
 @service(fallback = new FocusManager())
 class FocusManager implements Service {
@@ -6,7 +9,7 @@ class FocusManager implements Service {
 
   public function setFocus(ref:ConcreteWidget) {
     #if blok.platform.dom
-      var el:js.html.Element = ref.getFirstConcreteChild();
+      var el:js.html.Element = ref.toConcrete().first();
       el.focus();
     #end
   }

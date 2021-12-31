@@ -1,4 +1,9 @@
-package blok.core.foundation.portal;
+package blok.foundation.portal;
+
+import blok.ui.Component;
+import blok.ui.Concrete;
+import blok.ui.ConcreteManager;
+import blok.ui.Widget;
 
 using Lambda;
 

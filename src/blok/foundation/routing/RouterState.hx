@@ -1,8 +1,7 @@
-package blok.core.foundation.routing;
+package blok.foundation.routing;
 
-import blok.Observable;
-
-using Blok;
+import blok.state.Observable;
+import blok.state.State;
 
 @service(fallback = throw 'No router found.')
 class RouterState<Route:EnumValue> implements State {

@@ -1,7 +1,7 @@
-package blok.core.foundation.routing.history;
+package blok.foundation.routing.history;
 
 import js.Browser;
-import blok.Observable;
+import blok.state.Observable;
 
 using StringTools;
 

@@ -1,6 +1,6 @@
-package blok.core.foundation.routing.history;
+package blok.foundation.routing.history;
 
-import blok.Observable;
+import blok.state.Observable;
 
 using StringTools;
 

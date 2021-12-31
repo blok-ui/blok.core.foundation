@@ -1,4 +1,4 @@
-package blok.core.foundation.routing;
+package blok.foundation.routing;
 
 using Blok;
 

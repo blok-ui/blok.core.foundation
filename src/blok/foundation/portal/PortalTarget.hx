@@ -1,4 +1,6 @@
-package blok.core.foundation.portal;
+package blok.foundation.portal;
+
+import blok.ui.Component;
 
 class PortalTarget extends Component {
   @use var portals:PortalService;

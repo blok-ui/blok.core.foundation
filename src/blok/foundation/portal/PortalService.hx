@@ -1,4 +1,6 @@
-package blok.core.foundation.portal;
+package blok.foundation.portal;
+
+import blok.context.Service;
 
 /**
   The PortalService is responsible for managing all Portals in a Blok app.

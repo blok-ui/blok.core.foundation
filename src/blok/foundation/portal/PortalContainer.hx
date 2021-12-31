@@ -1,7 +1,9 @@
-package blok.core.foundation.portal;
+package blok.foundation.portal;
 
-import blok.Component;
-import blok.VNode;
+import blok.context.Provider;
+import blok.ui.Component;
+import blok.ui.VNode;
+import blok.ui.Fragment;
 
 /**
   A container component that sets up everything you need to use Portals.
