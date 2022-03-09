@@ -1,5 +1,6 @@
 package blok.foundation.portal;
 
+import blok.ui.ConcreteManager;
 import blok.ui.Component;
 import blok.ui.Platform;
 import blok.ui.VNode;
@@ -17,13 +18,11 @@ class Portal extends Component {
   @prop var child:VNode;
   @use var portals:PortalService;
 
-  override function __registerPlatform(platform:Platform) {
-    __platform = platform;
-    __manager = new PortalProxyManager(
+  override function __createConcreteManager(platform:Platform):ConcreteManager {
+    return new PortalProxyManager(
       this, 
       portals.getTarget().getConcreteManager()
     );
-    addDisposable(__manager);
   }
 
   public function render() {

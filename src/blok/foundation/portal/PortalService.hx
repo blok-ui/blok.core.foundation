@@ -19,5 +19,4 @@ class PortalService implements Service {
   public function getTarget() {
     return currentTarget;
   }
-
 }
